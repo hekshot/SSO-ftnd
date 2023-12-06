@@ -60,6 +60,7 @@ const Login = ({ handleClose }) => {
           startIcon={<GitHubIcon />}
           onClick={handleGitHubSignIn}
           style={{ margin: "10px 0" }}
+          href="http://localhost:8081/oauth2/authorization/github"
         >
           Continue with GitHub
         </Button>
