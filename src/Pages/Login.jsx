@@ -7,7 +7,7 @@ import {
 } from "@mui/icons-material";
 import { NavLink, NavLink as ReactLink } from "react-router-dom";
 
-const Register = ({ handleClose }) => {
+const Login = ({ handleClose }) => {
   const handleSubmit = (e) => {
     // Handle registration logic here
     e.preventDefault();
@@ -44,7 +44,7 @@ const Register = ({ handleClose }) => {
       {/* Add more fields as needed for your registration form */}
       <div style={{ display: "grid" }}>
         <Button type="submit" variant="contained" color="primary">
-          Register
+          Login
         </Button>
         <Button
           variant="contained"
@@ -65,13 +65,13 @@ const Register = ({ handleClose }) => {
         </Button>
       </div>
       <p className="mt-3 text-center" >
-        Already have an account?{" "}
-        <NavLink tag={ReactLink} to="/login" style={{color:'cyan'}}>
-          Login
+        Don't have an account?{" "}
+        <NavLink tag={ReactLink} to="/register" style={{color:'cyan'}}>
+          Register
         </NavLink>
       </p>
     </form>
   );
 };
 
-export default Register;
+export default Login;

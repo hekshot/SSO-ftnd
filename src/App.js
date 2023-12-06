@@ -4,6 +4,7 @@ import { ToastContainer } from "react-toastify";
 import Home from "./Pages/Home";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import Todo from "./Pages/Todo";
 
 const darkTheme = createTheme({
   palette: {
@@ -21,6 +22,7 @@ function App() {
         <ToastContainer />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/todos" element={<Todo/>} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

@@ -1,26 +1,59 @@
 import * as React from "react";
+import axios from "axios";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import {
+  CardActionArea,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import AdbIcon from "@mui/icons-material/Adb";
 import Register from "./Register";
+import Login from "./Login";
 
 export default function Home() {
-  const [open, setOpen] = React.useState(false);
+  const [openRegister, setOpenRegister] = React.useState(false);
+  const [openLogin, setOpenLogin] = React.useState(false);
 
-  const handleOpen = () => {
-    setOpen(true);
+  const handleOpenLogin = () => {
+    setOpenLogin(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseLogin = () => {
+    setOpenLogin(false);
   };
+
+  const handleOpenRegister = () => {
+    setOpenRegister(true);
+  };
+
+  const handleCloseRegister = () => {
+    setOpenRegister(false);
+  };
+
+  const testGet = () =>{
+    axios.get("http://localhost:8081/api/user", { withCredentials: true });
+  }
+
+  const testPost = () =>{
+    axios.post("http://localhost:8081/api/post", { withCredentials: true });
+  }
+
+  const testPut = () =>{
+    axios.put("http://localhost:8081/api/put", { withCredentials: true });
+  }
+
+  const testDelete = () =>{
+    axios.delete("http://localhost:8081/api/delete", { withCredentials: true });
+  }
 
   return (
     <div>
@@ -46,8 +79,19 @@ export default function Home() {
             >
               SkillBucks
             </Typography>
-
-            <Button color="inherit">Login</Button>
+            
+            <Button color="inherit" onClick={handleOpenLogin}>
+              Login
+            </Button>
+            <Dialog open={openLogin} onClose={handleCloseLogin}>
+              <DialogTitle>Login Now!!</DialogTitle>
+              <DialogContent>
+                <Login handleCloseLogin={handleCloseLogin} />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCloseLogin}>Close</Button>
+              </DialogActions>
+            </Dialog>
           </Toolbar>
         </AppBar>
       </Box>
@@ -59,12 +103,17 @@ export default function Home() {
           fontFamily: "monospace",
           fontSize: "20px",
           textAlign: "justify",
+          
         }}
       >
         Welcome to SkillBucks, the groundbreaking platform designed exclusively
         for college students, revolutionizing the collegiate experience. Our
         comprehensive website seamlessly integrates Academics, Fitness, and
         Events to empower students on their educational journey.
+        <Button onClick={()=>{testGet()}} >Get</Button>
+        <Button onClick={()=>{testPost()}} >Post</Button>
+        <Button onClick={()=>{testPut()}} >Put</Button>
+        <Button onClick={()=>{testDelete()}} >Delete</Button>
       </div>
       <div
         style={{
@@ -94,7 +143,7 @@ export default function Home() {
               <Typography
                 variant="body2"
                 color="text.secondary"
-                style={{ fontFamily: "monospace" }}
+                style={{ fontFamily: "monospace", textAlign: "justify" }}
               >
                 At the heart of our platform is a dynamic rewards program that
                 transforms academic excellence into tangible rewards. Through a
@@ -128,7 +177,7 @@ export default function Home() {
               <Typography
                 variant="body2"
                 color="text.secondary"
-                style={{ fontFamily: "monospace" }}
+                style={{ fontFamily: "monospace", textAlign: "justify" }}
               >
                 We believe in nurturing not just the mind but the body. Our
                 platform goes beyond academics, promoting holistic well-being.
@@ -162,7 +211,7 @@ export default function Home() {
               <Typography
                 variant="body2"
                 color="text.secondary"
-                style={{ fontFamily: "monospace" }}
+                style={{ fontFamily: "monospace", textAlign: "justify" }}
               >
                 Celebrate the vibrant college community by actively
                 participating in events. Whether it's academic competitions or
@@ -189,19 +238,8 @@ export default function Home() {
         academic success, fitness goals, and active participation in events
         converge to create a thriving and supportive environment for every
         student.
-        {/* <Link
-          href="/register"
-          style={{
-            color: "white",
-            display: "flex",
-            justifyContent: "center",
-            fontFamily: "monospace",
-          }}
-        >
-          Register Now!!
-        </Link> */}
         <Button
-          onClick={handleOpen}
+          onClick={handleOpenRegister}
           style={{
             textDecoration: "underline",
             fontFamily: "monospace",
@@ -209,16 +247,15 @@ export default function Home() {
         >
           Register Now!!
         </Button>
-        <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Registration Form</DialogTitle>
-        <DialogContent>
-          {/* Include the RegistrationForm component */}
-          <Register handleClose={handleClose} />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
-        </DialogActions>
-      </Dialog>
+        <Dialog open={openRegister} onClose={handleCloseRegister}>
+          <DialogTitle>Register Now!!</DialogTitle>
+          <DialogContent>
+            <Register handleCloseRegister={handleCloseRegister} />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseRegister}>Close</Button>
+          </DialogActions>
+        </Dialog>
       </div>
     </div>
   );
