@@ -110,10 +110,6 @@ export default function Home() {
         for college students, revolutionizing the collegiate experience. Our
         comprehensive website seamlessly integrates Academics, Fitness, and
         Events to empower students on their educational journey.
-        <Button onClick={()=>{testGet()}} >Get</Button>
-        <Button onClick={()=>{testPost()}} >Post</Button>
-        <Button onClick={()=>{testPut()}} >Put</Button>
-        <Button onClick={()=>{testDelete()}} >Delete</Button>
       </div>
       <div
         style={{
