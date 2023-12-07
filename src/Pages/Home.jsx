@@ -1,5 +1,4 @@
 import * as React from "react";
-import axios from "axios";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -38,22 +37,6 @@ export default function Home() {
   const handleCloseRegister = () => {
     setOpenRegister(false);
   };
-
-  const testGet = () =>{
-    axios.get("http://localhost:8081/api/user", { withCredentials: true });
-  }
-
-  const testPost = () =>{
-    axios.post("http://localhost:8081/api/post", { withCredentials: true });
-  }
-
-  const testPut = () =>{
-    axios.put("http://localhost:8081/api/put", { withCredentials: true });
-  }
-
-  const testDelete = () =>{
-    axios.delete("http://localhost:8081/api/delete", { withCredentials: true });
-  }
 
   return (
     <div>
