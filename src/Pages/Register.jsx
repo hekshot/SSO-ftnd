@@ -6,16 +6,18 @@ import {
   Google as GoogleIcon,
   GitHub as GitHubIcon,
 } from "@mui/icons-material";
+import config from "../Config/Config"
 
 const Register = ({ handleCloseRegister, openLoginDialog }) => {
 
   const [userName, setUsername] = useState("");
   const [userPassword, setPassword] = useState("");
+  const { apiBaseUrl} = config;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8081/v1/register", {
+      const response = await axios.post(`${apiBaseUrl}v1/register`, {
         userName,
         userPassword,
       });

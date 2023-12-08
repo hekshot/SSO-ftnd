@@ -7,26 +7,27 @@ import {
   Google as GoogleIcon,
   GitHub as GitHubIcon,
 } from "@mui/icons-material";
+import config from "../Config/Config"
 
 const Login = () => {
 
   const [userName, setUsername] = useState("");
   const [userPassword, setPassword] = useState("");
   const navigate = useNavigate();
-  
+  const { apiBaseUrl} = config;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8081/v1/login", {
+      const response = await axios.post(`${apiBaseUrl}v1/login`, {
         userName,
         userPassword,
       });
-      const { userName: loggedInUserName } = response.data;
+      localStorage.setItem('userData', JSON.stringify(response.data));
       setUsername("");
       setPassword("");
       console.log("Login successful", response.data);
-      navigate("/todos", { state: { userName: loggedInUserName } });
+      navigate("/todos");
     } catch (error) {
       console.error("Login failed", error);
     }
