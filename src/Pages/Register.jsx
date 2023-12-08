@@ -1,19 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {
   Google as GoogleIcon,
   GitHub as GitHubIcon,
 } from "@mui/icons-material";
-import { NavLink, NavLink as ReactLink } from "react-router-dom";
 
-const Register = ({ handleClose }) => {
-  const handleSubmit = (e) => {
-    // Handle registration logic here
+const Register = ({ handleCloseRegister, openLoginDialog }) => {
+
+  const [userName, setUsername] = useState("");
+  const [userPassword, setPassword] = useState("");
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your registration logic or API call
-    // After successful registration, you can close the modal
-    handleClose();
+    try {
+      const response = await axios.post("http://localhost:8081/v1/register", {
+        userName,
+        userPassword,
+      });
+      setUsername("");
+      setPassword("");
+      console.log("Registration successful", response.data);
+      handleCloseRegister();
+      openLoginDialog(); // Open the login dialog
+    } catch (error) {
+      console.error("Registration failed", error);
+    }
   };
 
   const handleGoogleSignIn = () => {
@@ -32,6 +45,7 @@ const Register = ({ handleClose }) => {
         margin="normal"
         fullWidth
         required
+        onChange={(e)=>setUsername(e.target.value)}
       />
       <TextField
         type="password"
@@ -40,6 +54,7 @@ const Register = ({ handleClose }) => {
         margin="normal"
         fullWidth
         required
+        onChange={(e)=>setPassword(e.target.value)}
       />
       {/* Add more fields as needed for your registration form */}
       <div style={{ display: "grid" }}>
@@ -65,12 +80,6 @@ const Register = ({ handleClose }) => {
           Continue with GitHub
         </Button>
       </div>
-      <p className="mt-3 text-center" >
-        Already have an account?{" "}
-        <NavLink tag={ReactLink} to="/login" style={{color:'cyan'}}>
-          Login
-        </NavLink>
-      </p>
     </form>
   );
 };

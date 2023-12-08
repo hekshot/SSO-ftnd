@@ -1,45 +1,58 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
 export default function Todo() {
-  
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  
 
   useEffect(() => {
-    
-    axios
-      .get("http://localhost:8081/api/user", { withCredentials: true })
-      .then((response) => {
-        
-        setIsLoggedIn(true);
-        console.log(response);
-        setUsername(response.data.userName);
-        
-      })
-      .catch((error) => {
+    let isMounted = true;
+
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:8081/v1/user", {
+          withCredentials: true,
+        });
+
+        if (isMounted) {
+          setIsLoggedIn(true);
+          console.log(response);
+          setUsername(response.data.userName);
+        }
+      } catch (error) {
         console.error("Error fetching user data:", error);
-      });
-  }, []); // Empty dependency array to run only once after the initial render
 
+        if (location.state && location.state.userName && isMounted) {
+          setIsLoggedIn(true);
+          setUsername(location.state.userName);
+        }
+      }
+    };
 
+    fetchData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [location.state]);
 
   const handleLogout = () => {
-    // Implement logout logic, clear session, etc.
-    // For example, you can call a logout API
-    axios.get("http://localhost:8081/api/logout", { withCredentials: true })
+    
+    axios
+      .get("http://localhost:8081/v1/logout", { withCredentials: true })
       .then(() => {
         setIsLoggedIn(false);
-        navigate("/");
-        // Additional logic if needed
+        setUsername("");
+        navigate("/", { state: {} });  
       })
       .catch((error) => {
         console.error("Error logging out:", error);
       });
   };
-
 
   return (
     <div className="todo-list-container">
@@ -47,7 +60,6 @@ export default function Todo() {
         <div className="user-info">
           <h1>You are now logged in</h1>
           <p>Welcome, {username}!</p>
-          {/* <button onClick={addExampleTodo}>addTodo</button> */}
           <button onClick={handleLogout}>Log out</button>
         </div>
       ) : (

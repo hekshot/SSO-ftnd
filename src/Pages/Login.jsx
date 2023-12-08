@@ -1,19 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {
   Google as GoogleIcon,
   GitHub as GitHubIcon,
 } from "@mui/icons-material";
-import { NavLink, NavLink as ReactLink } from "react-router-dom";
 
-const Login = ({ handleClose }) => {
-  const handleSubmit = (e) => {
-    // Handle registration logic here
+const Login = () => {
+
+  const [userName, setUsername] = useState("");
+  const [userPassword, setPassword] = useState("");
+  const navigate = useNavigate();
+  
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your registration logic or API call
-    // After successful registration, you can close the modal
-    handleClose();
+    try {
+      const response = await axios.post("http://localhost:8081/v1/login", {
+        userName,
+        userPassword,
+      });
+      const { userName: loggedInUserName } = response.data;
+      setUsername("");
+      setPassword("");
+      console.log("Login successful", response.data);
+      navigate("/todos", { state: { userName: loggedInUserName } });
+    } catch (error) {
+      console.error("Login failed", error);
+    }
   };
 
   const handleGoogleSignIn = () => {
@@ -25,13 +41,14 @@ const Login = ({ handleClose }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       <TextField
         label="Username"
         variant="outlined"
         margin="normal"
         fullWidth
         required
+        onChange={(e)=>setUsername(e.target.value)}
       />
       <TextField
         type="password"
@@ -40,10 +57,10 @@ const Login = ({ handleClose }) => {
         margin="normal"
         fullWidth
         required
+        onChange={(e)=>setPassword(e.target.value)}
       />
-      {/* Add more fields as needed for your registration form */}
       <div style={{ display: "grid" }}>
-        <Button type="submit" variant="contained" color="primary">
+        <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>
           Login
         </Button>
         <Button
@@ -65,12 +82,6 @@ const Login = ({ handleClose }) => {
           Continue with GitHub
         </Button>
       </div>
-      <p className="mt-3 text-center" >
-        Don't have an account?{" "}
-        <NavLink tag={ReactLink} to="/register" style={{color:'cyan'}}>
-          Register
-        </NavLink>
-      </p>
     </form>
   );
 };

@@ -38,6 +38,11 @@ export default function Home() {
     setOpenRegister(false);
   };
 
+  const handleToggleDialogs = () => {
+    setOpenLogin(!openLogin);
+    setOpenRegister(!openRegister);
+  };
+
   return (
     <div>
       <Box sx={{ flexGrow: 1 }}>
@@ -62,7 +67,7 @@ export default function Home() {
             >
               SkillBucks
             </Typography>
-            
+
             <Button color="inherit" onClick={handleOpenLogin}>
               Login
             </Button>
@@ -70,6 +75,12 @@ export default function Home() {
               <DialogTitle>Login Now!!</DialogTitle>
               <DialogContent>
                 <Login handleCloseLogin={handleCloseLogin} />
+                <div>
+                  Don't have an account?{" "}
+                  <Button color="primary" onClick={handleToggleDialogs}>
+                    Register Now!!
+                  </Button>
+                </div>
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleCloseLogin}>Close</Button>
@@ -86,7 +97,6 @@ export default function Home() {
           fontFamily: "monospace",
           fontSize: "20px",
           textAlign: "justify",
-          
         }}
       >
         Welcome to SkillBucks, the groundbreaking platform designed exclusively
@@ -227,14 +237,20 @@ export default function Home() {
           Register Now!!
         </Button>
         <Dialog open={openRegister} onClose={handleCloseRegister}>
-          <DialogTitle>Register Now!!</DialogTitle>
-          <DialogContent>
-            <Register handleCloseRegister={handleCloseRegister} />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseRegister}>Close</Button>
-          </DialogActions>
-        </Dialog>
+        <DialogTitle>Register Now!!</DialogTitle>
+        <DialogContent>
+          <Register handleCloseRegister={handleCloseRegister} openLoginDialog={handleToggleDialogs}/>
+          <div>
+            Already have an account?{" "}
+            <Button color="primary" onClick={handleToggleDialogs}>
+              Login Now!!
+            </Button>
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseRegister}>Close</Button>
+        </DialogActions>
+      </Dialog>
       </div>
     </div>
   );
