@@ -3,10 +3,10 @@ const environment = 'dev';
 
 const config = {
   dev: {
-    apiBaseUrl: 'http://localhost:8081/',
+    apiBaseUrl: 'http://localhost:8081',
   },
   prod: {
-    apiBaseUrl: '',
+    apiBaseUrl: '/api',
   },
 };
 

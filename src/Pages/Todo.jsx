@@ -24,7 +24,7 @@ export default function Todo() {
           }
         } else {
           // If userData is not in localStorage, make an API call
-          const response = await axios.get(`${apiBaseUrl}v1/user`, {
+          const response = await axios.get(`${apiBaseUrl}/v1/user`, {
             withCredentials: true,
           });
 
@@ -48,7 +48,7 @@ export default function Todo() {
 
   const handleLogout = () => {
     axios
-      .get(`${apiBaseUrl}v1/logout`, { withCredentials: true })
+      .get(`${apiBaseUrl}/v1/logout`, { withCredentials: true })
       .then(() => {
         
         localStorage.removeItem('userData');

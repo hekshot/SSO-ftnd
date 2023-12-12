@@ -19,7 +19,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${apiBaseUrl}v1/login`, {
+      const response = await axios.post(`${apiBaseUrl}/v1/login`, {
         userName,
         userPassword,
       });
@@ -67,9 +67,9 @@ const Login = () => {
         <Button
           variant="contained"
           startIcon={<GoogleIcon />}
-          onClick={handleGoogleSignIn}
+          onClick={handleGoogleSignIn}  
           style={{ margin: "10px 0" }}
-          href="http://localhost:8081/oauth2/authorization/google"
+          href={`${apiBaseUrl}/oauth2/authorization/google`}
         >
           Continue with Google
         </Button>
@@ -78,7 +78,7 @@ const Login = () => {
           startIcon={<GitHubIcon />}
           onClick={handleGitHubSignIn}
           style={{ margin: "10px 0" }}
-          href="http://localhost:8081/oauth2/authorization/github"
+          href={`${apiBaseUrl}/oauth2/authorization/github`}
         >
           Continue with GitHub
         </Button>
